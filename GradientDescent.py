@@ -1,11 +1,13 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
-def GradientDescent(x,y, stepSize):
+def gradientDescent(x,y, stepSize, maxIterations):
     currentM = 0
-	currentB = 0
-    maxIterations = 500 #dummy value
+    currentB = 0
     n = len(x)
-    stepSize = 0.01 #dummy value
+
+    weightVector = np.zeros((x.shape[1], 1))
+    weightMatrix = []
 
     for num in range(maxIterations):
         predY = currentM * x + currentB
@@ -16,7 +18,9 @@ def GradientDescent(x,y, stepSize):
         currentB = currentB - stepSize * bDer
         print ("m {}, b {}, cost {} iteration {}".format(currentM,currentB,cost, i))
 
+        return weightMatrix
+
 x = np.array([]) #fill with data set numbers
 y = np.array([]) #I don't know how to do this
 
-gradient_descent(x,y)
+gradientDescent(x, y, 0.1, 500)
