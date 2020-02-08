@@ -1,11 +1,13 @@
 import numpy as np
 import csv
+from sklearn import preprocessing as pp
 import matplotlib.pyplot as plt
 
 # Initalize variables
 # X and Y matricies for gradient descent
-x = [[]]#fill with data set numbers
-y = [] #I don't know how to do this
+x = [[]]
+y = []
+xscale = []
 
 # varibles used in reading and writing csv files
 csvfields = []
@@ -16,10 +18,6 @@ def gradient_descent(x,y, stepSize, maxIterations):
     currentM = 0
     currentB = 0
     n = len(x)
-
-    # Line for linear regression; y=mx+b
-    # y = lambda x : currentM * x + currentB
-
     weightVector = np.zeros((x.shape[1], 1))
     weightMatrix = []
 
@@ -50,7 +48,7 @@ def open_csv_file(filename):
 
         x = [[] for _ in range(len(csvrows))]
 
-    # seperate data into x and y
+    # Separate data into x and y matricies
     itercount = 0
     for line in csvrows:
         for varcount in range(0, len(line)):
@@ -60,6 +58,11 @@ def open_csv_file(filename):
                 y.append(line[varcount])
         itercount += 1
 
+    # Now scale the data for x
+    x = np.asarray(x)
+    x = pp.scale(x)
+
+# Scales data from csv file
 
 if __name__ == '__main__':
     open_csv_file("SAheart.data.csv")
