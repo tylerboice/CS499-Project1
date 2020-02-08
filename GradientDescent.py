@@ -6,6 +6,9 @@ def gradientDescent(x,y, stepSize, maxIterations):
     currentB = 0
     n = len(x)
 
+    # Line for linear regression; y=mx+b
+    y = lambda x : currentM * x + currentB
+
     weightVector = np.zeros((x.shape[1], 1))
     weightMatrix = []
 
