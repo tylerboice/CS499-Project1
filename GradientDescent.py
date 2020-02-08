@@ -32,8 +32,8 @@ def gradient_descent(x, y, stepSize, maxIterations):
         print(y.shape)
         loss = hyp - y # calc loss
         costVal = np.sum(loss ** 2) / (2 * m)  # calc cost
-        print ("Iteration %s | Cost Value: %.3f" % (iter, costVal))      
-        gradient = np.dot(xTrans, loss) / m  # calc gradient       
+        print ("Iteration %s | Cost Value: %.3f" % (iter, costVal))
+        gradient = np.dot(xTrans, loss) / m  # calc gradient
         weightMatrix = weightMatrix - stepSize * gradient  # update
     return weightMatrix
 
@@ -95,8 +95,14 @@ if __name__ == '__main__':
     # Get data from csv file
     x, y = open_csv_file("SAheart.data.csv")
 
+
+    # Comment out these next two lines to generate graphs for test data
+    #x, y = make_regression(n_samples=100, n_features=1, n_informative=1,
+                           #random_state=0, noise=35)
+
     #run gradient desecent on data set
-    gradient_descent(x, y, 0.1, 500)
+    # Comment out the below line to generate graphs for test data
+    #gradient_descent(x, y, 0.1, 500)
 
     #split data set in to 3 sections
     train, validate, test = data_splitter(x)
