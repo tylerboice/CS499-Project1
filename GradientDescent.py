@@ -1,6 +1,8 @@
+# Import dependencies
 import numpy as np
 import csv
 from sklearn import preprocessing as pp
+import random
 import matplotlib.pyplot as plt
 
 # Initalize variables
@@ -13,13 +15,18 @@ xscale = []
 csvfields = []
 csvrows = []
 
+# Set up the data set testing variables
+train = []
+validate = []
+test = []
+
 # Gradient Descent algorithm
 def gradient_descent(x,y, stepSize, maxIterations):
     currentM = 0
     currentB = 0
     n = len(x)
-    weightVector = np.zeros((x.shape[1], 1))
-    weightMatrix = []
+    weightVector = []
+    weightMatrix = [[]]
 
     for num in range(maxIterations):
         predY = currentM * x + currentB
@@ -58,12 +65,31 @@ def open_csv_file(filename):
                 y.append(line[varcount])
         itercount += 1
 
-    # Now scale the data for x
+    # Scale the data for x
     x = np.asarray(x)
     x = pp.scale(x)
+
+    return x, y
+
+def data_splitter(x):
+    # split the size of the data set to match necessary paramters
+    # train = 60% of data
+    # validate = 20% of data
+    # test = 20% of data
+    trainSplit = int(len(x)*.6)
+    validSplit = int(len(x)*.2)
+
+    # Randomize the entire list of x then split on the percentages
+    randX = random.sample(list(x), len(x))
+    train = randX[: trainSplit]
+    validate = randX[trainSplit: trainSplit + validSplit]
+    test = randX[trainSplit + validSplit:]
+
+    return train, validate, test
 
 # Scales data from csv file
 
 if __name__ == '__main__':
-    open_csv_file("SAheart.data.csv")
-    # gradientDescent(x, y, 0.1, 500)
+    x, y = open_csv_file("SAheart.data.csv")
+    train, validate, test = data_splitter(x)
+    #gradient_descent(x, y, 0.1, 500)
