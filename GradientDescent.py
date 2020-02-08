@@ -21,23 +21,19 @@ validate = []
 test = []
 
 # Gradient Descent algorithm
-def gradient_descent(x,y, stepSize, maxIterations):
-    currentM = 0
-    currentB = 0
-    n = len(x)
-    weightVector = []
-    weightMatrix = [[]]
-
-    for num in range(maxIterations):
-        predY = currentM * x + currentB
-        cost = (1/n) * sum([val**2 for val in (y-predY)])
-        mDer = -(2/n)*sum(x*(y-predY)) #m derivative
-        bDer = -(2/n)*sum(y-predY) #b derivative
-        currentM = currentM - stepSize * mDer
-        currentB = currentB - stepSize * bDer
-        print ("m {}, b {}, cost {} iteration {}".format(currentM,currentB,cost, i))
-
-        return weightMatrix
+def gradient_descent(x, y, stepSize, maxIterations):
+    m = x.shape[0] # number of samples
+    weightMatrix = np.ones(2)
+    weightVector = [0]
+    xTrans = x.transpose()
+    for iter in range(0, maxIterations):
+        hyp = np.dot(x, weightMatrix)
+        loss = hyp - y # calc loss
+        costVal = np.sum(loss ** 2) / (2 * m)  # calc cost
+        print ("Iteration %s | Cost Value: %.3f" % (iter, costVal))      
+        gradient = np.dot(xTrans, loss) / m  # calc gradient       
+        weightMatrix = weightMatrix - stepSize * gradient  # update
+    return weightMatrix
 
 
 # Opens a csv file and places values into x and y
@@ -96,7 +92,7 @@ if __name__ == '__main__':
     x, y = open_csv_file("SAheart.data.csv")
 
     #run gradient desecent on data set
-    # gradient_descent(x, y, 0.1, 500)
+    gradient_descent(x, y, 0.1, 500)
 
     #split data set in to 3 sections
     train, validate, test = data_splitter(x)
