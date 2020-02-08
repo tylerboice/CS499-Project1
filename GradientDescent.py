@@ -1,13 +1,24 @@
 import numpy as np
+import csv
 import matplotlib.pyplot as plt
 
-def gradientDescent(x,y, stepSize, maxIterations):
+# Initalize variables
+# X and Y matricies for gradient descent
+x = [[]]#fill with data set numbers
+y = [] #I don't know how to do this
+
+# varibles used in reading and writing csv files
+csvfields = []
+csvrows = []
+
+# Gradient Descent algorithm
+def gradient_descent(x,y, stepSize, maxIterations):
     currentM = 0
     currentB = 0
     n = len(x)
 
     # Line for linear regression; y=mx+b
-    y = lambda x : currentM * x + currentB
+    # y = lambda x : currentM * x + currentB
 
     weightVector = np.zeros((x.shape[1], 1))
     weightMatrix = []
@@ -23,7 +34,33 @@ def gradientDescent(x,y, stepSize, maxIterations):
 
         return weightMatrix
 
-x = np.array([]) #fill with data set numbers
-y = np.array([]) #I don't know how to do this
 
-gradientDescent(x, y, 0.1, 500)
+# Opens a csv file and places values into x and y
+def open_csv_file(filename):
+    # open and read a csv file
+    with open(filename, 'rt') as file:
+        freader = csv.reader(file)
+
+        # Get field names from first row
+        csvfields = next(freader)
+
+        # Get each row of data
+        for row in freader:
+            csvrows.append(row)
+
+        x = [[] for _ in range(len(csvrows))]
+
+    # seperate data into x and y
+    itercount = 0
+    for line in csvrows:
+        for varcount in range(0, len(line)):
+            if varcount is not len(line) - 1:
+                x[itercount].append(line[varcount])
+            else:
+                y.append(line[varcount])
+        itercount += 1
+
+
+if __name__ == '__main__':
+    open_csv_file("SAheart.data.csv")
+    # gradientDescent(x, y, 0.1, 500)
