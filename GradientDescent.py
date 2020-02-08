@@ -1,22 +1,24 @@
 import numpy as np
+from sklearn.datasets.samples_generator import make_regression 
 
-def GradientDescent(x,y, stepSize):
-    currentM = 0
-	currentB = 0
-    maxIterations = 500 #dummy value
-    n = len(x)
-    stepSize = 0.01 #dummy value
+def gradient_descent_2(stepSize, x, y, maxIterations):
+    m = x.shape[0] # number of samples
+    theta = np.ones(2)
+    xTrans = x.transpose()
+    for iter in range(0, maxIterations):
+        hyp = np.dot(x, theta)
+        loss = hyp - y # calc loss
+        costVal = np.sum(loss ** 2) / (2 * m)  # calc cost
+        print ("Iteration %s | Cost Value: %.3f" % (iter, costVal))      
+        gradient = np.dot(xTrans, loss) / m  # calc gradient       
+        theta = theta - stepSize * gradient  # update
+    return theta
 
-    for num in range(maxIterations):
-        predY = currentM * x + currentB
-        cost = (1/n) * sum([val**2 for val in (y-predY)])
-        mDer = -(2/n)*sum(x*(y-predY)) #m derivative
-        bDer = -(2/n)*sum(y-predY) #b derivative
-        currentM = currentM - stepSize * mDer
-        currentB = currentB - stepSize * bDer
-        print ("m {}, b {}, cost {} iteration {}".format(currentM,currentB,cost, i))
+if __name__ == '__main__':
 
-x = np.array([]) #fill with data set numbers
-y = np.array([]) #I don't know how to do this
-
-gradient_descent(x,y)
+    x, y = make_regression(n_samples=100, n_features=1, n_informative=1, 
+                        random_state=0, noise=35) 
+    m, n = np.shape(x)
+    x = np.c_[ np.ones(m), x]
+    stepSize = 0.01
+    theta = gradient_descent_2(stepSize, x, y, 500)
