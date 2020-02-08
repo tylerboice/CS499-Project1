@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.datasets.samples_generator import make_regression 
 
-def gradient_descent_2(stepSize, x, y, maxIterations):
+def gradient_descent(x, y, stepSize, maxIterations):
     m = x.shape[0] # number of samples
     theta = np.ones(2)
     xTrans = x.transpose()
@@ -20,5 +20,4 @@ if __name__ == '__main__':
                         random_state=0, noise=35) 
     m, n = np.shape(x)
     x = np.c_[ np.ones(m), x]
-    stepSize = 0.01
-    theta = gradient_descent_2(stepSize, x, y, 500)
+    theta = gradient_descent(x, y, 0.01, 500)
