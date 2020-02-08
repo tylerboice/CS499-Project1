@@ -94,9 +94,20 @@ def data_splitter(x):
 if __name__ == '__main__':
     # Get data from csv file
     x, y = open_csv_file("SAheart.data.csv")
+<<<<<<< Updated upstream
 
     #run gradient desecent on data set
     # gradient_descent(x, y, 0.1, 500)
+=======
+
+    # Comment out these next two lines to generate graphs for test data
+    #x, y = make_regression(n_samples=100, n_features=1, n_informative=1,
+                           #random_state=0, noise=35)
+
+    #run gradient desecent on data set
+    # Comment out the below line to generate graphs for test data
+    #gradient_descent(x, y, 0.1, 500)
+>>>>>>> Stashed changes
 
     #split data set in to 3 sections
     train, validate, test = data_splitter(x)
