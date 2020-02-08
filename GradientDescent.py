@@ -2,6 +2,7 @@
 import numpy as np
 import csv
 from sklearn import preprocessing as pp
+from sklearn.datasets.samples_generator import make_regression
 import random
 import matplotlib.pyplot as plt
 
@@ -22,8 +23,9 @@ test = []
 
 # Gradient Descent algorithm
 def gradient_descent(x, y, stepSize, maxIterations):
+    y = np.asarray(y)
     m = x.shape[0] # number of samples
-    weightMatrix = np.ones(2)
+    weightMatrix = np.ones(1)
     weightVector = [0]
     xTrans = x.transpose()
     for iter in range(0, maxIterations):
@@ -83,15 +85,25 @@ def data_splitter(x):
     validate = randX[trainSplit: trainSplit + validSplit]
     test = randX[trainSplit + validSplit:]
 
+    print("The size of train is: " + str(len(train)))
+    print("The size of validate is: " + str(len(validate)))
+    print("The size of test is: " + str(len(test)))
+
     return train, validate, test
 
 # Scales data from csv file
 
 if __name__ == '__main__':
+
     # Get data from csv file
-    x, y = open_csv_file("SAheart.data.csv")
+    x, y = open_csv_file("spambase.data.csv")
+
+    # Comment out these next two lines to generate graphs for test data
+    x, y = make_regression(n_samples=100, n_features=1, n_informative=1,
+                           random_state=0, noise=35)
 
     #run gradient desecent on data set
+    # Comment out the below line to generate graphs for test data
     gradient_descent(x, y, 0.1, 500)
 
     #split data set in to 3 sections
