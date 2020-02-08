@@ -2,7 +2,6 @@
 import numpy as np
 import csv
 from sklearn import preprocessing as pp
-from sklearn.datasets.samples_generator import make_regression
 import random
 import matplotlib.pyplot as plt
 
@@ -23,13 +22,14 @@ test = []
 
 # Gradient Descent algorithm
 def gradient_descent(x, y, stepSize, maxIterations):
-    y = np.asarray(y)
     m = x.shape[0] # number of samples
-    weightMatrix = np.ones(1)
+    weightMatrix = np.ones((9,1))
     weightVector = [0]
     xTrans = x.transpose()
     for iter in range(0, maxIterations):
         hyp = np.dot(x, weightMatrix)
+        print(hyp.shape)
+        print(y.shape)
         loss = hyp - y # calc loss
         costVal = np.sum(loss ** 2) / (2 * m)  # calc cost
         print ("Iteration %s | Cost Value: %.3f" % (iter, costVal))      
@@ -68,7 +68,9 @@ def open_csv_file(filename):
     # Scale the data for x
     x = np.asarray(x)
     x = pp.scale(x)
-
+    y = np.asarray(y)
+    size = y.shape
+    y = np.reshape(y, (size[0], 1))
     return x, y
 
 def data_splitter(x):
@@ -85,25 +87,15 @@ def data_splitter(x):
     validate = randX[trainSplit: trainSplit + validSplit]
     test = randX[trainSplit + validSplit:]
 
-    print("The size of train is: " + str(len(train)))
-    print("The size of validate is: " + str(len(validate)))
-    print("The size of test is: " + str(len(test)))
-
     return train, validate, test
 
 # Scales data from csv file
 
 if __name__ == '__main__':
-
     # Get data from csv file
-    x, y = open_csv_file("spambase.data.csv")
-
-    # Comment out these next two lines to generate graphs for test data
-    x, y = make_regression(n_samples=100, n_features=1, n_informative=1,
-                           random_state=0, noise=35)
+    x, y = open_csv_file("SAheart.data.csv")
 
     #run gradient desecent on data set
-    # Comment out the below line to generate graphs for test data
     gradient_descent(x, y, 0.1, 500)
 
     #split data set in to 3 sections
