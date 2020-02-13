@@ -27,13 +27,15 @@ def gradient_descent(x, y, stepSize, maxIterations):
     weightVector = [0]
     xTrans = x.transpose()
     for iter in range(0, maxIterations):
+        # matrix multiplication of X and weightVector, theta^T x(i)
         hyp = np.dot(x, weightMatrix)
-        print(hyp.shape)
-        print(y.shape)
+        # y.tilde * hyp, multiply vector predictions by y tilde values
         loss = hyp - y # calc loss
+        # denominator = add 1 + exponential of y.tilde * hyp
+        # matrix multiply y.tilde by X and devide all of that by denominator
         costVal = np.sum(loss ** 2) / (2 * m)  # calc cost
-        print ("Iteration %s | Cost Value: %.3f" % (iter, costVal))
-        gradient = np.dot(xTrans, loss) / m  # calc gradient
+        print ("Iteration %s | Cost Value: %.3f" % (iter, costVal))      
+        gradient = np.dot(xTrans, loss) / m  # calc gradient       
         weightMatrix = weightMatrix - stepSize * gradient  # update
     return weightMatrix
 
@@ -62,7 +64,7 @@ def open_csv_file(filename):
             if varcount is not len(line) - 1:
                 x[itercount].append(line[varcount])
             else:
-                y.append(line[varcount])
+                y.append(float(line[varcount]))
         itercount += 1
 
     # Scale the data for x
@@ -94,19 +96,22 @@ def data_splitter(x):
 if __name__ == '__main__':
     # Get data from csv file
     x, y = open_csv_file("SAheart.data.csv")
+    dataList = (
+        ("SAheart.data.csv", 0.1, 100),
+        ("spambase.data.csv", 0.1, 100),
+        ("zip.train.data", 0.1, 100))
 
+    for file in dataList:
+        x, y = open_csv_file(file[0])
 
-    # Comment out these next two lines to generate graphs for test data
-    #x, y = make_regression(n_samples=100, n_features=1, n_informative=1,
-                           #random_state=0, noise=35)
+         #run gradient desecent on data set
+        gradient_descent(x, y, file[1], file[2])
 
-    #run gradient desecent on data set
-    # Comment out the below line to generate graphs for test data
-    #gradient_descent(x, y, 0.1, 500)
+        #split data set in to 3 sections
+        train, validate, test = data_splitter(x)
 
-    #split data set in to 3 sections
-    train, validate, test = data_splitter(x)
+        # Plot data points
+        plt.plot(x, y)
+        plt.show()
 
-    # Plot data points
-    plt.plot(x, y)
-    plt.show()
+   
