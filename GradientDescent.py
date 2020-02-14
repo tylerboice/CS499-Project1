@@ -24,19 +24,18 @@ test = []
 def calculate_gradient(x, yTrans, weightVector):
     predVec = np.dot(x, weightVector)
     expT = yTrans * predVec
-    denominator = (int)(1+math.exp(expT))
-    np.mean(y, axis=(-(int)(yTrans) * x / denominator))
+    denominator = (1+np.exp(expT))
+    return np.mean(-yTrans * x / denominator)
     
 # Gradient Descent algorithm
 def gradient_descent(x, y, stepSize, maxIterations):
-    weightMatrix = np.ones((9,1))
-    weightVector = [0]
+    weightMatrix = np.array((9, ))
+    weightVector = np.zeros((9, 1))
     for iter in range(0, maxIterations):
         gradVec = calculate_gradient(x,y,weightVector)
         weightVector = weightVector - stepSize * gradVec
-        weightMatrix[:, iter] = weightVector  # update
+        weightMatrix = np.append(weightMatrix, weightVector)
     return weightMatrix
-
 
 # Opens a csv file and places values into x and y
 def open_csv_file(filename):
@@ -92,8 +91,10 @@ def data_splitter(x):
 # Scales data from csv file
 
 if __name__ == '__main__':
+
     # Get data from csv file
     x, y = open_csv_file("SAheart.data.csv")
+
     dataList = (
         ("SAheart.data.csv", 0.1, 100),
         ("spambase.data.csv", 0.1, 100),
@@ -102,14 +103,16 @@ if __name__ == '__main__':
     for file in dataList:
         x, y = open_csv_file(file[0])
 
-         #run gradient desecent on data set
-        gradient_descent(x, y, file[1], file[2])
+        # run gradient desecent on data set
+        testPlot = gradient_descent(x, y, file[1], file[2])
 
-        #split data set in to 3 sections
+        # split data set in to 3 sections
         train, validate, test = data_splitter(x)
 
         # Plot data points
-        plt.plot(x, y)
+        plt.plot(testPlot)
         plt.show()
 
-   
+        # NOTE BREAK HERE TO TEST FIRST DATA SET
+        break
+
