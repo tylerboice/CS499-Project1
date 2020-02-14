@@ -20,23 +20,20 @@ train = []
 validate = []
 test = []
 
+def calculate_gradient(x, yTrans, weightVector):
+    predVec = np.dot(x, weightVector)
+    expT = yTrans * predVec
+    denominator = (int)(1+math.exp(expT))
+    np.mean(y, axis=(-(int)(yTrans) * x / denominator))
+    
 # Gradient Descent algorithm
 def gradient_descent(x, y, stepSize, maxIterations):
-    m = x.shape[0] # number of samples
     weightMatrix = np.ones((9,1))
     weightVector = [0]
-    xTrans = x.transpose()
     for iter in range(0, maxIterations):
-        # matrix multiplication of X and weightVector, theta^T x(i)
-        hyp = np.dot(x, weightMatrix)
-        # y.tilde * hyp, multiply vector predictions by y tilde values
-        loss = hyp - y # calc loss
-        # denominator = add 1 + exponential of y.tilde * hyp
-        # matrix multiply y.tilde by X and devide all of that by denominator
-        costVal = np.sum(loss ** 2) / (2 * m)  # calc cost
-        print ("Iteration %s | Cost Value: %.3f" % (iter, costVal))      
-        gradient = np.dot(xTrans, loss) / m  # calc gradient       
-        weightMatrix = weightMatrix - stepSize * gradient  # update
+        gradVec = calculate_gradient(x,y,weightVector)
+        weightVector = weightVector - stepSize * gradVec
+        weightMatrix[:, iter] = weightVector  # update
     return weightMatrix
 
 
