@@ -11,7 +11,7 @@ x = [[]]
 y = []
 xscale = []
 
-# varibles used in reading and writing csv files
+# variables used in reading and writing csv files
 csvfields = []
 csvrows = []
 
@@ -20,6 +20,7 @@ train = []
 validate = []
 test = []
 
+# Calculate the gradient, to be used in gradient_descent
 def calculate_gradient(x, yTrans, weightVector):
     predVec = np.dot(x, weightVector)
     expT = yTrans * predVec
