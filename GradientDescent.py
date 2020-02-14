@@ -4,6 +4,7 @@ import csv
 from sklearn import preprocessing as pp
 import random
 import matplotlib.pyplot as plt
+import math
 
 # Initalize variables
 # X and Y matricies for gradient descent
@@ -20,6 +21,7 @@ train = []
 validate = []
 test = []
 
+<<<<<<< Updated upstream
 # Gradient Descent algorithm
 def gradient_descent(x,y, stepSize, maxIterations):
     currentM = 0
@@ -38,6 +40,24 @@ def gradient_descent(x,y, stepSize, maxIterations):
         print ("m {}, b {}, cost {} iteration {}".format(currentM,currentB,cost, i))
 
         return weightMatrix
+=======
+# Calculate the gradient, to be used in gradient_descent
+def calculate_gradient(x, yTrans, weightVector):
+    predVec = np.dot(x, weightVector)
+    expT = yTrans * predVec
+    denominator = (1+np.exp(expT))
+    return np.mean(-yTrans * x / denominator)
+    
+# Gradient Descent algorithm
+def gradient_descent(x, y, stepSize, maxIterations):
+    weightMatrix = np.array((9, ))
+    weightVector = np.zeros((9, 1))
+    for iter in range(0, maxIterations):
+        gradVec = calculate_gradient(x,y,weightVector)
+        weightVector = weightVector - stepSize * gradVec
+        weightMatrix = np.append(weightMatrix, weightVector)
+    return weightMatrix
+>>>>>>> Stashed changes
 
 
 # Opens a csv file and places values into x and y
@@ -92,14 +112,23 @@ def data_splitter(x):
 # Scales data from csv file
 
 if __name__ == '__main__':
+
     # Get data from csv file
+<<<<<<< Updated upstream
     x, y = open_csv_file("SAheart.data.csv")
 <<<<<<< Updated upstream
+=======
+    dataList = (
+        ("SAheart.data.csv", 0.1, 100),
+        ("spambase.data.csv", 0.1, 100),
+        ("zip.train.data", 0.1, 100))
+>>>>>>> Stashed changes
 
     #run gradient desecent on data set
     # gradient_descent(x, y, 0.1, 500)
 =======
 
+<<<<<<< Updated upstream
     # Comment out these next two lines to generate graphs for test data
     #x, y = make_regression(n_samples=100, n_features=1, n_informative=1,
                            #random_state=0, noise=35)
@@ -115,3 +144,17 @@ if __name__ == '__main__':
     # Plot data points
     plt.plot(x, y)
     plt.show()
+=======
+        # run gradient desecent on data set
+        testPlot = gradient_descent(x, y, file[1], file[2])
+
+        # split data set in to 3 sections
+        train, validate, test = data_splitter(x)
+
+        # Plot data points
+        plt.plot(testPlot)
+        plt.show()
+
+        # NOTE BREAK HERE TO TEST FIRST DATA SET
+        break
+>>>>>>> Stashed changes
