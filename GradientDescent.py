@@ -4,7 +4,14 @@ import csv
 from sklearn import preprocessing as pp
 import random
 import matplotlib.pyplot as plt
+<<<<<<< Updated upstream
 import math
+=======
+import requests
+import pandas as pd
+import io
+
+>>>>>>> Stashed changes
 
 # Initalize variables
 # X and Y matricies for gradient descent
@@ -50,8 +57,8 @@ def calculate_gradient(x, yTrans, weightVector):
     
 # Gradient Descent algorithm
 def gradient_descent(x, y, stepSize, maxIterations):
-    weightMatrix = np.array((9, ))
-    weightVector = np.zeros((9, 1))
+    weightMatrix = np.array(x.shape[1])
+    weightVector = np.zeros(x.shape[1])
     for iter in range(0, maxIterations):
         gradVec = calculate_gradient(x,y,weightVector)
         weightVector = weightVector - stepSize * gradVec
@@ -62,6 +69,7 @@ def gradient_descent(x, y, stepSize, maxIterations):
 
 # Opens a csv file and places values into x and y
 def open_csv_file(filename):
+<<<<<<< Updated upstream
     x = [[]]
     y = []
     # open and read a csv file
@@ -86,11 +94,23 @@ def open_csv_file(filename):
             else:
                 y.append(line[varcount])
         itercount += 1
+=======
+    replaceDict = {"Present": 1, "Absent": 0}
+    r = requests.post(filename).content
+    df = pd.read_csv(io.StringIO(r.decode('utf-8')))
+    df = df.replace(replaceDict)
+    x = np.asarray(df)
+    y = np.asarray(df.iloc[:, -1])
+>>>>>>> Stashed changes
 
     # Scale the data for x
-    x = np.asarray(x)
     x = pp.scale(x)
+<<<<<<< Updated upstream
 
+=======
+    size = y.shape
+    y = np.reshape(y, (size[0], 1))
+>>>>>>> Stashed changes
     return x, y
 
 def data_splitter(x):
@@ -113,20 +133,28 @@ def data_splitter(x):
 
 if __name__ == '__main__':
 
+<<<<<<< Updated upstream
     # Get data from csv file
 <<<<<<< Updated upstream
     x, y = open_csv_file("SAheart.data.csv")
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
     dataList = (
-        ("SAheart.data.csv", 0.1, 100),
-        ("spambase.data.csv", 0.1, 100),
+        ("SAheart.data.csv", 0.1, 100, "http://web.stanford.edu/~hastie/ElemStatLearn/datasets/SAheart.data"),
+        ("spambase.data.csv", 0.1, 100, "https://web.stanford.edu/~hastie/ElemStatLearn/datasets/spam.data"),
         ("zip.train.data", 0.1, 100))
 >>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
     #run gradient desecent on data set
     # gradient_descent(x, y, 0.1, 500)
 =======
+=======
+    for file in dataList:
+        x, y = open_csv_file(file[3])
+>>>>>>> Stashed changes
 
 <<<<<<< Updated upstream
     # Comment out these next two lines to generate graphs for test data
@@ -157,4 +185,7 @@ if __name__ == '__main__':
 
         # NOTE BREAK HERE TO TEST FIRST DATA SET
         break
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
