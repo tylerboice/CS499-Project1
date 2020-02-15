@@ -30,12 +30,14 @@ def calculate_gradient(x, yTrans, weightVector):
     
 # Gradient Descent algorithm
 def gradient_descent(x, y, stepSize, maxIterations):
-    weightMatrix = np.array((9, ))
+    weightMatrix = np.array((1, 1))
     weightVector = np.zeros((9, 1))
     for iter in range(0, maxIterations):
         gradVec = calculate_gradient(x,y,weightVector)
         weightVector = weightVector - stepSize * gradVec
         weightMatrix = np.append(weightMatrix, weightVector)
+    size = weightMatrix.shape
+    weightMatrix = np.reshape(weightMatrix, (size[0], 1))
     return weightMatrix
 
 # Opens a csv file and places values into x and y
@@ -114,12 +116,12 @@ if __name__ == '__main__':
         plt.plot(testPlot)
         plt.show()
 
-        fpr, tpr, threshold = metrics.roc_curve(y, test)
+        predictions = validate * testPlot
+        fpr, tpr, threshold = metrics.roc_curve(y, predictions)
         roc_auc = metrics.auc(fpr, tpr)
 
         plt.title('Receiver Operating Characteristic')
         plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
-        plt.legend(loc = 'lower right')
         plt.plot([0, 1], [0, 1],'r--')
         plt.xlim([0, 1])
         plt.ylim([0, 1])
